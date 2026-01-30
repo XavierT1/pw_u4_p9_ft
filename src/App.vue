@@ -1,8 +1,11 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/estudiantes/consultar">Consultar Todos</router-link>
+    <router-link to="/consultar">Consultar Estudiantes</router-link> |
+    <router-link to="/consultar-id">Consultar por ID</router-link> |
+    <router-link to="/guardar">Registrar Estudiante</router-link> |
+    <router-link to="/actualizar">Actualizar Estudiante</router-link> |
+    <router-link to="/eliminar">Eliminar Estudiante</router-link> |
+    <router-link to="/actualizar-parcial">Actualizar Parcial</router-link>
   </nav>
   <router-view/>
 </template>
