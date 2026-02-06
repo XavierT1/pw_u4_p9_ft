@@ -3,13 +3,13 @@ import axios from 'axios';
 const AUTH_URL = 'http://localhost:8082/auth/token';
 
 // Función para obtener un nuevo token desde el microservicio Auth
-export const generarNuevoToken = async () => {
+export const generarNuevoToken = async (username, password) => {
     try {
         console.log("Solicitando nuevo token al servidor de Auth...");
         const response = await axios.get(AUTH_URL, {
             params: { 
-                user: 'admin', 
-                password: 'admin123' 
+                user: username, 
+                password: password,
             }
         });
 
@@ -36,8 +36,18 @@ export const obtenerTokenValido = async () => {
 
     // Si no existe el token o faltan menos de 5 minutos para que expire (margen de seguridad)
     if (!tokenActual || !tiempoExpiracion || (tiempoExpiracion - ahora) < 300) {
-        console.warn("Token inexistente o por expirar. Generando uno nuevo...");
-        return await generarNuevoToken();
+        console.warn("Token inexistente o por expirar. Redirigiendo a login...");
+        
+        // Limpiamos la sesión
+        localStorage.removeItem('token');
+        localStorage.removeItem('expiracion');
+        localStorage.removeItem('estaAutenticado');
+        localStorage.removeItem('nombre'); // Si se usa
+
+        // Redireccionamos forzosamente
+        window.location.href = '#/login';
+        
+        return null;
     }
 
     console.log("Usando token existente (aún válido)");

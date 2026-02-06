@@ -49,6 +49,12 @@ const eliminar = async (id) => {
     return response.data;
 }
 
+const actualizarParcial = async (id, body) => {
+    const config = await getAuthHeaders();
+    const response = await axios.patch(`${BASE_URL}/${id}`, body, config);
+    return response.data;
+}
+
 // --- Fachadas que exportas a tus componentes .vue ---
 
 export const consultarTodosFachada = async () => await consultarTodos();
@@ -56,3 +62,4 @@ export const consultarPorIdFachada = async (id) => await consultarPorId(id);
 export const guardarFachada = async (body) => await guardar(body);
 export const actualizarFachada = async (id, body) => await actualizar(id, body);
 export const eliminarFachada = async (id) => await eliminar(id);
+export const actualizarParcialFachada = async (id, body) => await actualizarParcial(id, body);

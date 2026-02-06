@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -38,6 +39,10 @@ const routes = [
     requiereAutorizacion: true,
     esPublica: false
     }
+  },
+  { path: '/login',
+    name: 'login',
+    component: LoginView
   }
 ]
 const router = createRouter({
@@ -52,8 +57,13 @@ avance a la pagina o no avance a la pagina*/
 router.beforeEach((to, from, next) => {
   if(to.meta.requiereAutorizacion){
     /*le envio a una pagina de login*/
+    const estaAutenticado = localStorage.getItem("estaAutenticado");
+    const token = localStorage.getItem("token");
+    
+    if(!estaAutenticado){
     console.log("Requiere autorizacion")
-
+    next({name: 'login'})
+    }
   }else{
     /*le dejo sin validaciones*/
     console.log("Pase libre")
