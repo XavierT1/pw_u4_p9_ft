@@ -9,6 +9,9 @@ const BASE_URL = `http://localhost:8081/matricula/api/v1.0/estudiantes`;
  */
 const getAuthHeaders = async () => {
     const tokenValido = await obtenerTokenValido();
+    if (!tokenValido) {
+        throw new Error("Usuario no autenticado - Token inválido o expirado");
+    }
     return { 
         headers: { 
             "Authorization": `Bearer ${tokenValido}`,

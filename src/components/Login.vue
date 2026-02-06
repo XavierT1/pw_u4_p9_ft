@@ -1,8 +1,8 @@
 <template>
     <div class="login">
         <h2>Login</h2>
-        <input v-model="usuario" type="text" placeholder="Usuario">
-        <input v-model="password" type="password" placeholder="Contrasena">
+        <input type="text" v-model="usuario" placeholder="Usuario">
+        <input type="password" v-model="password" placeholder="Contraseña">
         <button @click="login">Entrar</button>
     </div>
 </template>
@@ -18,14 +18,17 @@ export default {
         }
     },
     methods:{
-        async login(){ // Make login async
+        async login(){ 
             console.log("Iniciando sesión...");
-            const token = await generarNuevoToken(this.usuario, this.password); // Call API
+            const token = await generarNuevoToken(this.usuario, this.password); 
 
-            if(token){ // Simplified check as generarNuevoToken returns null on error
+            if(token){
                 localStorage.setItem("token", token);
+                
                 localStorage.setItem("estaAutenticado", true);
-                this.$router.push({ name: 'home' }); // Redirect to home
+                
+                const redirectPath = this.$route.query.redirect || '/consultar';
+                this.$router.push(redirectPath); 
             } else {
                 alert("Error de autenticacion: Usuario o contraseña incorrectos");
                 console.error("No se pudo obtener el token");
@@ -35,7 +38,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .login{
     width: 300px;

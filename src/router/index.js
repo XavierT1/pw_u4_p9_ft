@@ -4,40 +4,41 @@ import LoginView from '../views/LoginView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
+  
   { path: '/consultar', component: () => import('../components/ConsultarTodos.vue'),
     meta: {
-    requiereAutorizacion: false,
+    requiereAutorizacion: true,
     esPublica: true
     } 
    },
   { path: '/consultar-id', component: () => import('../components/ConsultarPorId.vue'),
     meta: {
-    requiereAutorizacion: false,
+    requiereAutorizacion: true,
     esPublica: true
     } 
    },
   { path: '/guardar', component: () => import('../components/GuardarEstudiante.vue'),
     meta: {
-    requiereAutorizacion: false,
+    requiereAutorizacion: true,
     esPublica: true
     } 
    },
   { path: '/actualizar', component: () => import('../components/ActualizarEstudiante.vue'),
     meta: {
     requiereAutorizacion: true,
-    esPublica: false
+    esPublica: true
     } 
    },
   { path: '/eliminar', component: () => import('../components/EliminarEstudiante.vue'), 
     meta: {
     requiereAutorizacion: true,
-    esPublica: false
+    esPublica: true
     } 
   },
   { path: '/actualizar-parcial', component: () => import('../components/ActualizarParcial.vue'),
     meta: {
     requiereAutorizacion: true,
-    esPublica: false
+    esPublica: true
     }
   },
   { path: '/login',
@@ -62,11 +63,13 @@ router.beforeEach((to, from, next) => {
     
     if(!estaAutenticado){
     console.log("Requiere autorizacion")
-    next({name: 'login'})
+    next({ name: 'login', query: { redirect: to.fullPath } })
+    } else {
+        next();
     }
   }else{
     /*le dejo sin validaciones*/
-    console.log("Pase libre")
+    
     next()
   }
 })
